@@ -30,13 +30,13 @@ setMethod('pseq2mlr',
 #' @param object of class \code{model} (required)
 #' @param object of class \code{inner} (required)
 #' @export
-setGeneric('setHyperparameters', function(model, inner) standardGeneric('setHyperparameters'))
+setGeneric('setHyperparameters', function(model, inner, search) standardGeneric('setHyperparameters'))
 setMethod('setHyperparameters',
     signature('model'),
-    function(model, inner){
+    function(model, inner, search){
 
         name = model@l
-        learner = lrn(name)
+        learner = lrn(name, predict_type = 'prob', predict_sets = c('train', 'test'))
 
         if (name == 'classif.kknn'){
             ps = ps(
@@ -48,42 +48,62 @@ setMethod('setHyperparameters',
         } else if (name == 'classif.naive_bayes'){
             ps = ps(
                 laplace = p_dbl(lower = model@ps$laplace[[1]], upper = model@ps$laplace[[2]]))
+        } else if (name == 'classif.ksvm'){
+            ps = ps(
+                C = p_dbl(lower = model@ps$C[[1]], upper = model@ps$C[[2]]),
+                sigma = p_dbl(lower = model@ps$sigma[[1]], upper = model@ps$sigma[[2]]))
+        } else if (name == 'classif.xgboost'){
+            ps = ps(
+                nrounds = p_int(lower = model@ps$nrounds[[1]], upper = model@ps$nrounds[[2]]),
+                max_depth = p_int(lower = model@ps$max_depth[[1]], upper = model@ps$max_depth[[2]]),
+                eta = p_dbl(lower = model@ps$eta[[1]], upper = model@ps$eta[[2]]),
+                lambda = p_dbl(lower = model@ps$lambda[[1]], upper = model@ps$lambda[[2]], trafo = model@ps$lambda[[3]]))
+        } else if (name == 'classif.randomForest'){
+            ps = ps(
+                ntree = p_int(lower = model@ps$ntree[[1]], upper = model@ps$ntree[[2]]),
+                mtry = p_int(lower = model@ps$mtry[[1]], upper = model@ps$mtry[[2]]),
+                nodesize = p_int(lower = model@ps$nodesize[[1]], upper = model@ps$nodesize[[2]]))
         }
 
-        cv.inner = rsmp(inner@resampling)
-        measure = msr(inner@measure)
-        terminator = trm(inner@terminator[[1]], n_evals = inner@terminator[[2]])
-        tuner = tnr(inner@tuner[[1]], resolution = inner@tuner[[2]])
+        measure = msr(search@measure)
+        terminator = trm(search@terminator[[1]], n_evals = search@terminator[[2]])
+        tuner = tnr(search@tuner[[1]], resolution = search@tuner[[2]])
 
-        at = AutoTuner$new(learner, cv.inner, measure, terminator, tuner, ps)
+        at = AutoTuner$new(learner, inner, measure, terminator, tuner, ps)
 
         })
 
 
-### Initializze outer resampling
-#' Initialize a resampling method to carried out outer CV
-#' @param object of class \code{outer} (required)
+### Initialize resampling class
+#' Initialize a resampling class
+#' @param object of class \code{resampling} (required)
 #' @export
-setGeneric('init_outer', function(object) standardGeneric('init_outer'))
-setMethod('init_outer',
-    signature('outer'),
+setGeneric('init_resampling', function(object) standardGeneric('init_resampling'))
+setMethod('init_resampling',
+    signature('resampling'),
     function(object){
 
         strategies = c('bootstrap', 'cv', 'holdout', 'loo', 'repeated_cv')
         stopifnot(object@resampling %in% strategies)
 
         if (object@resampling == 'bootstrap'){
-            outer = rsmp(object@resampling, repeats = object@repeats, ratio = object@ratio)
+            rs = rsmp(object@resampling, repeats = object@repeats, ratio = object@ratio)
         } else if (object@resampling == 'cv'){
-            outer = rsmp(object@resampling, folds = object@folds)
+            rs = rsmp(object@resampling, folds = object@folds)
         } else if (object@resampling == 'holdout'){
-            outer = rsmp(object@resampling, ratio = object@ratio)
+            rs = rsmp(object@resampling, ratio = object@ratio)
         } else if (object@resampling == 'loo'){
-            outer = rsmp(object@resampling)
+            rs = rsmp(object@resampling)
         } else if (object@resampling == 'repeated_cv'){
-            outer = rsmp(object@resampling, repeats = object@repeats, folds = object@folds)
+            rs = rsmp(object@resampling, repeats = object@repeats, folds = object@folds)
         }
 
-        return(outer)
+        return(rs)
 
         })
+
+
+
+
+
+

@@ -4,7 +4,7 @@
 \alias{setHyperparameters}
 \title{Initialize a model with a set of hyperparameers}
 \usage{
-setHyperparameters(model, inner)
+setHyperparameters(model, inner, search)
 }
 \arguments{
 \item{object}{of class \code{inner} (required)}
