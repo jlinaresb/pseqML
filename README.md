@@ -64,8 +64,8 @@ cv.in = init_resampling(new('resampling', resampling = 'holdout', ration = 0.6))
 search = new('search', measure = 'classif.acc', terminator = list('evals', 10), tuner = list('grid_search', 10))
 
 ## Defining learners
-l1 = setHyperparameters(new('GLMNET', cv.in, search))
-l2 = setHyperparameters(new('NB', cv.in, search))
+l1 = setHyperparameters(new('GLMNET'), cv.in, search)
+l2 = setHyperparameters(new('NB'), cv.in, search)
 
 ## Defining CV outer 
 outer = init_resampling(new('resampling'), resampling = 'repeated_cv', repeats = 2, folds = 3)
