@@ -4,10 +4,12 @@
 \alias{pseq2mlr}
 \title{Convert \code{phyloseq} to \code{mlr3} task}
 \usage{
-pseq2mlr(pseqML, id)
+pseq2mlr(phyloseq, target, id)
 }
 \arguments{
-\item{pseqML}{Object of class \code{pseqML} (required)}
+\item{phyloseq}{Object of class \code{phyloseq} (required)}
+
+\item{target}{Character with the name of dependent variable (required)}
 
 \item{id}{Character vector with ID to data (required)}
 }

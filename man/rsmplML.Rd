@@ -4,14 +4,14 @@
 \alias{rsmplML}
 \title{Carry out a resampling strategy}
 \usage{
-rsmplML(task, leaner, outer)
+rsmplML(task, learner, outer)
 }
 \arguments{
 \item{task}{Task created with \code{pseq2mlr} method}
 
-\item{outer}{Resampling object initialized with \code{init_resampling} method}
-
 \item{learner}{Learner created with \code{setHyperparameters} method}
+
+\item{outer}{Resampling object initialized with \code{init_resampling} method}
 }
 \value{
 a BenchmarkResult object generated from \code{mlr3}

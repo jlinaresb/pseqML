@@ -1,3 +1,10 @@
+### TODO ###
+# - Convertir pseqML y pseqMLR para que sean herencia
+# - Mirar como hacer para añadir OldClass
+
+#setOldClass('phyloseq')
+#setOldClass('TaskClassif')
+
 #' The S4 Class for storing phyloseq data to carried out ML analyisis.
 #'
 #' This object stores the all information of metagenomic data
@@ -13,6 +20,12 @@ setClass('pseqML',
            target = NULL
          ))
 
+#' The S4 class inherited from \code{pseqML} to storage also \code{TaskClassif} data
+#' @exportClass pseqMLR
+setClass('pseqMLR',
+  slots = c(
+    pseq = 'pseqML',
+    task = 'TaskClassif'))
 
 
 # Machine Learning classes

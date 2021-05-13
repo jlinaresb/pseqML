@@ -3,13 +3,16 @@
 
 #### pseq2mlr
 #' Convert \code{phyloseq} to \code{mlr3} task 
-#' @param pseqML Object of class \code{pseqML} (required)
+#' @param phyloseq Object of class \code{phyloseq} (required)
+#' @param target Character with the name of dependent variable (required)
 #' @param id Character vector with ID to data (required)
 #' @export
-setGeneric('pseq2mlr', function(pseqML, id) standardGeneric('pseq2mlr'))
+setGeneric('pseq2mlr', function(phyloseq, target, id) standardGeneric('pseq2mlr'))
 setMethod('pseq2mlr',
-    signature('pseqML'),
-    function(pseqML, id){
+    signature('phyloseq'),
+    function(phyloseq, target, id){
+
+        pseqML = new('pseqML', data = phyloseq, target = target)
 
         X = as.data.frame(t(pseqML@data@otu_table@.Data))
         Y = as.factor(phyloseq::get_variable(pseqML@data, pseqML@target))
@@ -21,7 +24,11 @@ setMethod('pseq2mlr',
             backend = d,
             target = 'target')
 
-        return(task)
+        pseqMLR = new('pseqMLR', 
+            pseq = pseqML,
+            task = task)
+
+        return(pseqMLR)
         })
 
 

@@ -15,4 +15,10 @@ Imports:
     phyloseq,
     mlr3learners,
     mlr3verse,
-    precrec
+    precrec,
+    mlr3filters,
+    praznik,
+    FSelectorRcpp,
+    caret,
+    MXM,
+    FCBF
