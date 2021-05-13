@@ -1,6 +1,6 @@
 # Machine Learning experiments with Metagenomic data
 
-Welcome to the homepage of pseqML package!
+Welcome to the homepage of `pseqML` package!
 
 This is a package in development. 
 
