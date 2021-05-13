@@ -19,7 +19,7 @@ xx = pseq2mlr(phyloseq = pseq,
 
 
 # Make feature Selection
-pseqML::filterCFS(xx, cutoff = 0.1)
+filt = pseqML::filterCFS(xx, cutoff = 0.1)
 
 
 

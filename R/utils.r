@@ -5,6 +5,5 @@ listFilterMethods = function(){
 	 'jmi', 'jmim', 'kruskal_test', 'mim', 'mrmr', 'njmim',
 	  'performance', 'permutation', 'relief', 'variance')
 
-	print(filterMethods)
 	return(filterMethods)
 }

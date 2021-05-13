@@ -2,8 +2,7 @@
 
 ## Cosas generales
 
-* Hacer que el objeto pseqMLR esté heredado de pseqML
-* Añadir clases de otros paquetes (setOldClass??)
+* Añadir clases de otros paquetes (setOldClass??) para phyloseq
 * Crear objetos donde de ayuda para FS, ML, CV, etc.
 
 

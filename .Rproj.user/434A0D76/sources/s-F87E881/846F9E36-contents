@@ -8,7 +8,8 @@
 #'
 #' @format An object of class \code{'phyloseq'}; see \code{phyloseq} package vignette.
 #'
+#' @keywords datasets
 #' @example
 #' data(random)
 #'
-"random_pseq"
+

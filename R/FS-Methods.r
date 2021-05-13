@@ -6,20 +6,19 @@ setMethod('selectFeatures',
 	signature('pseqMLR'),
 	function(pseqMLR, features){
 
-		prune = prune_taxa(taxa = features, x = pseqMLR@pseq@data)
+		prune = prune_taxa(taxa = features, x = pseqMLR@data)
+		pseqML = new('pseqML', data = prune, target = pseqMLR@target)
 
-		pseqML = new('pseqML', data = prune, target = pseqMLR@pseq@target)
-
-		X = get_X1(pseqML)
-		Y = get_Y1(pseqML)
+		X = get_X(pseqML)
+		Y = get_Y(pseqML)
 		d = cbind.data.frame(X, target = Y)
-		names(d) = make.names(names(d))
+		names(d) = make.names(names(d))					#setValidity()
 
 		task = TaskClassif$new(id = pseqMLR@task$id,
 			backend = d,
 			target = 'target')
 
-		res = new('pseqMLR', pseq = pseqML, task = task)
+		res = new('pseqMLR', data = pseqML@data, target = pseqML@target, task = task)
 
 		return(res)
 		})

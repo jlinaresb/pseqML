@@ -14,18 +14,21 @@ setMethod('pseq2mlr',
 
         pseqML = new('pseqML', data = phyloseq, target = target)
 
-        X = as.data.frame(t(pseqML@data@otu_table@.Data))
-        Y = as.factor(phyloseq::get_variable(pseqML@data, pseqML@target))
+        #X = as.data.frame(t(pseqML@data@otu_table@.Data))
+        X = get_X(pseqML)
+        #Y = as.factor(phyloseq::get_variable(pseqML@data, pseqML@target))
+        Y = get_Y(pseqML)
 
         d = cbind.data.frame(X, target = Y)
-        names(d) = make.names(names(d))
+        names(d) = make.names(names(d))                 # setValidity()
 
         task = TaskClassif$new(id = id,
             backend = d,
             target = 'target')
 
         pseqMLR = new('pseqMLR', 
-            pseq = pseqML,
+            data = phyloseq,
+            target = target,
             task = task)
 
         return(pseqMLR)

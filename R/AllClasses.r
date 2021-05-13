@@ -3,7 +3,7 @@
 # - Mirar como hacer para añadir OldClass
 
 #setOldClass('phyloseq')
-#setOldClass('TaskClassif')
+setOldClass('TaskClassif')
 
 #' The S4 Class for storing phyloseq data to carried out ML analyisis.
 #'
@@ -13,18 +13,15 @@
 setClass('pseqML',
          slots = c(
            data = 'phyloseq',
-           target = 'character'
-         ),
-         prototype = list(
-           data = NULL,
-           target = NULL
-         ))
+           target = 'character'))
 
 #' The S4 class inherited from \code{pseqML} to storage also \code{TaskClassif} data
 #' @exportClass pseqMLR
 setClass('pseqMLR',
+  contains = 'pseqML',
   slots = c(
-    pseq = 'pseqML',
+    data = 'phyloseq',
+    target = 'character',
     task = 'TaskClassif'))
 
 
