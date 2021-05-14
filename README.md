@@ -20,9 +20,9 @@ if (!requireNamespace("BiocManager"))
 BiocManager::install()
 install.packages("devtools")
 
-# Before installing pseqML, you need also to install the dependent packages `phyloseq` and `mlr3`.
+# Before installing pseqML, you need also to install the dependent packages `phyloseq`, `mlr3`, `mlr3learners` and `mlr3verse`.
 BiocManager::install(c("phyloseq"))
-install.packages('mlr3')
+install.packages(c('mlr3', 'mlr3learners', 'mlr3verse'))
 devtools::install_github("jlinares/pseqML", dependencies=TRUE)
 ```
 
@@ -64,17 +64,16 @@ cv.in = init_resampling(new('resampling', resampling = 'holdout', ration = 0.6))
 search = new('search', measure = 'classif.acc', terminator = list('evals', 10), tuner = list('grid_search', 10))
 
 ## Defining learners
-l1 = setHyperparameters(new('GLMNET'), cv.in, search)
-l2 = setHyperparameters(new('NB'), cv.in, search)
+l1 = setHyperparameters(new('NB'), cv.in, search)
 
 ## Defining CV outer 
 outer = init_resampling(new('resampling'), resampling = 'repeated_cv', repeats = 2, folds = 3)
 
 ## Benchmark experiment
-bmr = benchML(tasks = list(pseqMLR),
-			learners = list(l1, l2),
+res = rsmplML(tasks = pseqMLR@task,
+			learner = l1,
 			outer = outer)
 
 ## Show results
-autoplot(bmr)
+print(res$aggregate())
 ```
