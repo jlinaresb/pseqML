@@ -35,6 +35,8 @@ Before starting the demonstration, you nedd to load the following packages:
 
 ```
 require(mlr3)
+require(mlr3learners)
+require(mlr3verse)
 require(phyloseq)
 ```
 
@@ -45,7 +47,7 @@ Start the analyisis:
 data('random_pseq')
 
 ## Convert phyloseq to pseqMLR object
-pseqML = peq2mlr(phyloseq = pseq,
+pseqML = pseq2mlr(phyloseq = pseq,
 			target = 'cancer',
 			id = 'example')
 
@@ -60,17 +62,17 @@ Once the dataset was reduced, is time to define a set of ML algorithms to carry 
 
 ```
 ## Defining CV inner
-cv.in = init_resampling(new('resampling', resampling = 'holdout', ration = 0.6))
+cv.in = init_resampling(new('resampling', resampling = 'holdout', ratio = 0.6))
 search = new('search', measure = 'classif.acc', terminator = list('evals', 10), tuner = list('grid_search', 10))
 
 ## Defining learners
 l1 = setHyperparameters(new('NB'), cv.in, search)
 
 ## Defining CV outer 
-outer = init_resampling(new('resampling'), resampling = 'repeated_cv', repeats = 2, folds = 3)
+outer = init_resampling(new('resampling', resampling = 'repeated_cv', repeats = 2, folds = 3))
 
 ## Benchmark experiment
-res = rsmplML(tasks = pseqMLR@task,
+res = rsmplML(tasks = pseqML@task,
 			learner = l1,
 			outer = outer)
 
