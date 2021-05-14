@@ -72,7 +72,7 @@ l1 = setHyperparameters(new('NB'), cv.in, search)
 outer = init_resampling(new('resampling', resampling = 'repeated_cv', repeats = 2, folds = 3))
 
 ## Benchmark experiment
-res = rsmplML(tasks = pseqML@task,
+res = rsmplML(task = pseqML@task,
 			learner = l1,
 			outer = outer)
 
