@@ -2,7 +2,7 @@
 
 ## Cosas generales
 
-* Hacer todo heredable de phyloseq??
+* Hacer todo heredable de phyloseq???
 * Añadir clases de otros paquetes (setOldClass??) para phyloseq
 * Crear objetos de ayuda para FS, ML, CV, etc.
 
