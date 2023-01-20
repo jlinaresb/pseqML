@@ -2,14 +2,29 @@
 
 ## Cosas generales
 
+* Hacer todo heredable de phyloseq??
 * Añadir clases de otros paquetes (setOldClass??) para phyloseq
-* Crear objetos donde de ayuda para FS, ML, CV, etc.
+* Crear objetos de ayuda para FS, ML, CV, etc.
 
 
 ## Preprocesado
 
-* Definir cuáles son los tipos de preprocesados que se quiere añadir
+* Filtro conteos
+* Filtro muestras
+* Métodos de normalización
+* Métodos de distancia
 
+
+## Análisis básicos
+
+* Diferencia de abundancias
+* Eliminar batch effect
+
+
+## Análisis complejos
+
+* Co-abundancias
+* Clustering
 
 ## Feature Selection
 
