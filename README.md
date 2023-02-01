@@ -23,7 +23,7 @@ install.packages("devtools")
 # Before installing pseqML, you need also to install the dependent packages `phyloseq`, `mlr3`, `mlr3learners` and `mlr3verse`.
 BiocManager::install(c("phyloseq"))
 install.packages(c('mlr3', 'mlr3learners', 'mlr3verse'))
-devtools::install_github("jlinares/pseqML", dependencies=TRUE)
+devtools::install_github("jlinaresb/pseqML", dependencies=TRUE)
 ```
 
 
@@ -37,6 +37,7 @@ Before starting the demonstration, you nedd to load the following packages:
 require(mlr3)
 require(mlr3learners)
 require(mlr3verse)
+require(caret)
 require(phyloseq)
 ```
 

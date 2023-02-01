@@ -39,7 +39,7 @@ filterCFS  = function(pseqMLR, cutoff){
 	Y = get_Y(pseqMLR)
 
 	res = cor(X)
-	remove = findCorrelation(res, cutoff = cutoff, exact = F)
+	remove = caret::findCorrelation(res, cutoff = cutoff, exact = F)
 
 	if (length(remove) > 0){
 		out = X[, -remove]
