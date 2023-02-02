@@ -1,20 +1,3 @@
-#' DRAFT! ADD DESCRIPTION
-#' @param pseqMLR Object of class \code{pseqMLR}
-setGeneric(
-    "name_method",
-    function(pseqMLR) standardGeneric("name_method"))
-setMethod("name_method",
-    signature("pseqMLR"),
-    function(pseqMLR) {
-
-
-
-        return()
-        })
-
-
-
-
 #' ADD DESCRITPION!
 #' @param pseqMLR Object of class \code{pseqMLR}
 #' @param level Character vector. Name of the column corresponding to taxonomic level
@@ -107,8 +90,8 @@ setMethod("deep_median_abundance",
 #' @param transform Character vector. See ?microbiome::transform() for more info
 setGeneric(
     "transform_counts",
-    function(pseqMLR, tranform) standardGeneric("clr_counts"))
-setMethod("clr_counts",
+    function(pseqMLR, tranform) standardGeneric("transform_counts"))
+setMethod("transform_counts",
     signature("pseqMLR"),
     function(pseqMLR) {
         require(microbiome)
@@ -121,14 +104,12 @@ setMethod("clr_counts",
 
 #' DRAFT! ADD DESCRIPTION
 #' @param pseqMLR Object of class \code{pseqMLR}
-#' @param type Character vector.
-#' It can choose filter taxa by: "mean", "coef_var" or "presence"
+#' @param type Character vector. It can choose filter taxa by: "mean", "coef_var" or "presence"
 #' @param threshold Numeric
-#' @param percentage Numeric.
-#' Only used when type == presence. Value range from 0 to 1
+#' @param percentage Numeric. Only used when type == presence. Value range from 0 to 1
 setGeneric(
     "filtering_taxa",
-    function(pseqMLR, type, threshold) standardGeneric("filtering_taxa"))
+    function(pseqMLR, type, threshold, percentage) standardGeneric("filtering_taxa"))
 setMethod("filtering_taxa",
     signature("pseqMLR"),
     function(pseqMLR, type, threshold, percentage) {
