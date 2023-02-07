@@ -76,11 +76,11 @@ setGeneric(
 setMethod("deep_median_abundance",
     signature("pseqMLR"),
     function(pseqMLR) {
-        pseqMLR@data <- transform_sample_counts(
-            pseqMLR@data, function(x) {x / sum(x)}
-            )
-        pseqMLR@data <- transform_sample_counts(
-            pseqMLR@data, function(x) (x - mean(x)) / sd(x))
+        total <- median(sample_sums(pseqMLR@data))
+        standf <- function(x, t = total) {
+          round(t * (x / sum(x)))
+        }
+        pseqMLR@data <- transform_sample_counts(pseqMLR@data, standf)
         return(pseqMLR)
         })
 
@@ -90,14 +90,15 @@ setMethod("deep_median_abundance",
 #' @param transform Character vector. See ?microbiome::transform() for more info
 setGeneric(
     "transform_counts",
-    function(pseqMLR, tranform) standardGeneric("transform_counts"))
+    function(pseqMLR, transform) standardGeneric("transform_counts"))
 setMethod("transform_counts",
     signature("pseqMLR"),
-    function(pseqMLR) {
+    function(pseqMLR, transform) {
         require(microbiome)
         pseqMLR@data <- transform(
             pseqMLR@data,
-            transform = transform)
+            transform = transform,
+            shift = 1, reference = 1)
         return(pseqMLR)
         })
 
@@ -128,3 +129,23 @@ setMethod("filtering_taxa",
             TRUE)
         return(pseqMLR)
         })
+
+
+
+#' DRAFT! ADD DESCRIPTION
+#' @param pseqMLR Object of class \code{pseqMLR}
+#' @param n_counts Minimum number of counts that a samples must includes
+setGeneric(
+  "filtering_counts",
+  function(pseqMLR, n_counts) standardGeneric("filtering_counts"))
+setMethod("filtering_counts",
+          signature("pseqMLR"),
+          function(pseqMLR, n_counts) {
+
+            pseqMLR@data <- prune_samples(
+              sample_sums(pseqMLR@data) >= n_counts, pseqMLR@data)
+            return(pseqMLR)
+          })
+
+
+

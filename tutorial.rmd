@@ -1,0 +1,59 @@
+---
+title: "Tutorial - pseqML"
+output: html_document
+date: "2023-02-07"
+---
+
+## Preprocessing steps
+
+```{r}
+require(pseqML)
+
+
+require(mlr3)
+require(mlr3learners)
+require(mlr3verse)
+require(caret)
+require(phyloseq)
+
+data("random_pseq")
+pseq
+
+pseqML = pseq2mlr(phyloseq = pseq,
+                  target = 'cancer',
+                  id = 'example')
+
+
+# Checking steps
+print(check_prevalence(pseqML, level = "Rank6"))
+
+
+# Transform counts
+relab <- relative_abundance(pseqML)
+otu_table(relab@data)
+
+zscore <- zscore_abundance(pseqML)
+otu_table(zscore@data)
+
+deep <- deep_median_abundance(pseqML)
+otu_table(deep@data)
+
+t <- transform_counts(pseqML, "alr")   # doesn´t works!
+otu_table(t@data)
+
+# Filter taxonomic features
+pseqML_f <- filtering_taxa(
+  pseqMLR = pseqML,
+  type = "presence",
+  threshold = 1,
+  percentage = 0.5)
+pseqML_f
+
+
+# Filter samples
+pseqML
+pseqML_fs <- filtering_counts(pseqML, 12)
+pseqML_fs
+
+
+```
