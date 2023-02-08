@@ -98,3 +98,16 @@ check_prevalence(pseqML, level = "Rank6")
 
 
 ### Functions to plot
+```{r}
+plot_abundances(pseqML, level = "Rank5")              # Warning!
+plot_abundances_target(pseqML, level = "Rank5")       # Warning!
+plot_richness(pseqML, index = "shannon")
+plot_abundances_bars(pseqML, level = "Rank6", transformation = "none") # warning
+plot_abundances_lines(pseqML, level = "Rank6") # warining!
+plot_heatmap(pseqML, level = "Rank6", transformation = "log") # warning!
+plot_varcorr(pseqML, target = NULL, level = "Rank6", method = "pearson")  #error!
+plot_taxa_core(pseqML, target = NULL)  # warning!
+
+
+```
+

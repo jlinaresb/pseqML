@@ -137,22 +137,13 @@ setMethod("plot_heatmap",
           function(pseqMLR, level, transformation) {
 
             require(phylosmith)
+            require(viridis)
 
             plot <- phylosmith::abundance_heatmap(
               phyloseq_obj = pseqMLR@data,
               classification = level,
               treatment = pseqMLR@target,
-              transformation = transformation,
-              colors = c(
-                "#2166AC",
-                "#4393C3",
-                "#92C5DE",
-                "#D1E5F0",
-                "#FDDBC7",
-                "#F4A582",
-                "#D6604D",
-                "#B2182B")
-            )
+              transformation = transformation)
             print(plot)
           })
 
@@ -160,15 +151,14 @@ setMethod("plot_heatmap",
 #' Plot varcorr
 #' @param pseqMLR Object of class \code{pseqMLR}
 #' @param target ¿?
-#' @param treatment Character vector. One of the samples variables
 #' @param level Character vector. Name of the column corresponding to taxonomic level
-#' @param method Character vector.
+#' @param method Character vector. Available methods are: "pearson", "spearman"
 setGeneric(
   "plot_varcorr",
-  function(pseqMLR, target, treatment, level, method) standardGeneric("plot_varcorr"))
+  function(pseqMLR, target, level, method) standardGeneric("plot_varcorr"))
 setMethod("plot_varcorr",
           signature("pseqMLR"),
-          function(pseqMLR, target, treatment, level, method) {
+          function(pseqMLR, target, level, method) {
 
             require(phylosmith)
 
@@ -179,11 +169,7 @@ setMethod("plot_varcorr",
               classification = level,
               method = method,
               cores = 1,
-              significance_color = "black",
-              colors = c(
-                "#2C7BB6",
-                "white",
-                "#D7191C")
+              significance_color = "black"
               )
             print(plot)
           })
@@ -194,10 +180,10 @@ setMethod("plot_varcorr",
 #' @param target ¿?
 setGeneric(
   "plot_taxa_core",
-  function(pseqMLR, target, treatment, level, method) standardGeneric("plot_taxa_core"))
+  function(pseqMLR, target) standardGeneric("plot_taxa_core"))
 setMethod("plot_taxa_core",
           signature("pseqMLR"),
-          function(pseqMLR, target, treatment, level, method) {
+          function(pseqMLR, target) {
 
             require(phylosmith)
 
