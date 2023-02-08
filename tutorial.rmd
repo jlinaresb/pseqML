@@ -4,30 +4,56 @@ output: html_document
 date: "2023-02-07"
 ---
 
-## Preprocessing steps
+## Before to start
 
 ```{r}
-require(pseqML)
-
-
+# You need to have installed the following packages
 require(mlr3)
 require(mlr3learners)
 require(mlr3verse)
 require(caret)
 require(phyloseq)
 
+# Then, you can load pseqML
+require(pseqML)
+```
+
+## Import ```phyloseq``` object
+Before to start working with ```pseqMLR```, you need to create a ````phyloseq``` object. See the oficial [tutorial](https://joey711.github.io/phyloseq/) for more information. You can use our toy dataset to follow this tutorial.
+
+```{r}
 data("random_pseq")
-pseq
+print(pseq)
+```
+In this toy example (generated randomly), we have a ```phyloseq``` object that includes eight taxons through 20 samples. In addition, samples are labeled according two variables.
 
-pseqML = pseq2mlr(phyloseq = pseq,
-                  target = 'cancer',
-                  id = 'example')
-
-
-# Checking steps
-print(check_prevalence(pseqML, level = "Rank6"))
+```{r}
+names(sample_data(pseq))
+```
 
 
+## Preprocessing steps
+The first step that you need to do is convert ```phyloseq``` object into a ```pseqMLR``` object.
+
+```{r}
+pseqML <- pseq2mlr(
+  phyloseq = pseq,
+  target = "cancer",
+  id = "example")
+```
+
+Normally, When we are working with a ```phyloseq``` object, we need to make several transformations and preprocessing steps before to build our prediction model. ```pseqML``` facilitates this task by unifying in a single package, the state-of-the-art preprocessing methods in an easy and intuitite interface, working mainly on the ```pseqMLR``` object. Below are the functions included in ```pseqML```. These functions can be divided into XX groups:
+
+1. Functions to transform counts
+2. Functions to filter taxonomic features
+3. Functions to filter samples
+4. Functions to make descriptive analysis
+5. Functions to plot
+
+### Functions to transform counts
+```pseqMLR``` works ideally with raw counts. This raw counts can be transformed through multiple ways. 
+
+```{r}
 # Transform counts
 relab <- relative_abundance(pseqML)
 otu_table(relab@data)
@@ -38,22 +64,37 @@ otu_table(zscore@data)
 deep <- deep_median_abundance(pseqML)
 otu_table(deep@data)
 
-t <- transform_counts(pseqML, "alr")   # doesn´t works!
+t <- transform_counts(pseqML, "clr")
 otu_table(t@data)
+```
 
+### Functions to filter taxonomic features
+```{r}
 # Filter taxonomic features
+phyloseq::ntaxa(pseqML@data)
 pseqML_f <- filtering_taxa(
   pseqMLR = pseqML,
   type = "presence",
   threshold = 1,
   percentage = 0.5)
-pseqML_f
-
-
-# Filter samples
-pseqML
-pseqML_fs <- filtering_counts(pseqML, 12)
-pseqML_fs
-
-
+phyloseq::ntaxa(pseqML_f@data)
 ```
+
+
+### Functions to filter samples
+```{r}
+# Filter samples
+phyloseq::nsamples(pseqML@data)
+pseqML_fs <- filtering_counts(pseqML, 12)
+phyloseq::nsamples(pseqML_fs@data)
+```
+
+
+### Functions to make descriptive analysis
+```{r}
+# Checking steps
+check_prevalence(pseqML, level = "Rank6")
+```
+
+
+### Functions to plot

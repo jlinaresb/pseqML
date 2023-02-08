@@ -87,7 +87,8 @@ setMethod("deep_median_abundance",
 
 #' DRAFT! ADD DESCRIPTION
 #' @param pseqMLR Object of class \code{pseqMLR}
-#' @param transform Character vector. See ?microbiome::transform() for more info
+#' @param transform Character vector. See ?microbiome::transform() for more info.
+#' You can choose between "alr" and "clr" transformation.
 setGeneric(
     "transform_counts",
     function(pseqMLR, transform) standardGeneric("transform_counts"))
@@ -95,7 +96,7 @@ setMethod("transform_counts",
     signature("pseqMLR"),
     function(pseqMLR, transform) {
         require(microbiome)
-        pseqMLR@data <- transform(
+        pseqMLR@data <- microbiome::transform(
             pseqMLR@data,
             transform = transform,
             shift = 1, reference = 1)
