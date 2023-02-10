@@ -2,7 +2,7 @@
 # ========================
 
 #### pseq2mlr
-#' Convert \code{phyloseq} to \code{mlr3} task 
+#' Convert \code{phyloseq} to \code{mlr3} task
 #' @param phyloseq Object of class \code{phyloseq} (required)
 #' @param target Character with the name of dependent variable (required)
 #' @param id Character vector with ID to data (required)
@@ -12,24 +12,27 @@ setMethod('pseq2mlr',
     signature('phyloseq'),
     function(phyloseq, target, id){
 
-        pseqML = new('pseqML', data = phyloseq, target = target)
+        pseqML = new(
+          'pseqML',
+          data = phyloseq,
+          target = target)
 
-        #X = as.data.frame(t(pseqML@data@otu_table@.Data))
         X = get_X(pseqML)
-        #Y = as.factor(phyloseq::get_variable(pseqML@data, pseqML@target))
         Y = get_Y(pseqML)
 
         d = cbind.data.frame(X, target = Y)
-        names(d) = make.names(names(d))                 # setValidity()
+        names(d) = make.names(names(d))
 
-        task = TaskClassif$new(id = id,
-            backend = d,
-            target = 'target')
+        task = TaskClassif$new(
+          id = id,
+          backend = d,
+          target = 'target')
 
-        pseqMLR = new('pseqMLR', 
-            data = phyloseq,
-            target = target,
-            task = task)
+        pseqMLR = new(
+          'pseqMLR',
+          data = phyloseq,
+          target = target,
+          task = task)
 
         return(pseqMLR)
         })
