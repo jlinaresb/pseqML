@@ -31,10 +31,10 @@ setMethod("plot_heatmap",
 #' levels
 setGeneric(
   "plot_abundances_by_target",
-  function(pseqMLR, tax_level) standardGeneric("plot_abundances_by_target"))
+  function(pseqMLR) standardGeneric("plot_abundances_by_target"))
 setMethod("plot_abundances_by_target",
           signature("pseqMLR"),
-          function(pseqMLR, tax_level) {
+          function(pseqMLR) {
 
             # Format data to plot
             to_plot <- data_to_plot(
@@ -52,36 +52,3 @@ setMethod("plot_abundances_by_target",
             return(plot)
           })
 
-
-
-# Doesn´t work!!
-#' Plot abundances according response variable
-#' @param pseqMLR Object of class \code{pseqMLR}
-#' @param tax_level Character vector. Name of one of the taxonomic
-#' levels
-setGeneric(
-  "plot_abundances",
-  function(pseqMLR, tax_level) standardGeneric("plot_abundances"))
-setMethod("plot_abundances",
-          signature("pseqMLR"),
-          function(pseqMLR, tax_level) {
-
-            # Format data to plot
-            to_plot <- data_to_plot(
-              pseqMLR,
-              merged = FALSE
-            )
-            # Plotting barplot
-            plot <- ggplot(
-              to_plot,
-              aes(
-                x = Rank3,
-                y = counts,
-                fill = target)) +
-              geom_bar(
-                stat = "identity",
-                position = position_dodge2()
-                )
-            print(plot)
-            return(plot)
-          })

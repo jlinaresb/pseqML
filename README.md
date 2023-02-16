@@ -4,7 +4,21 @@ Welcome to the homepage of `pseqML` package!
 
 This is a package in development. 
 
-This package will provide a standard environment to carried out Machine Learning experiemnts in metagenomics samples.
+
+
+## Package description
+This package provides a standard environment to carried out Machine Learning experiments on microbiome data.
+
+### Classes
+
+### Methods
+The methods are divided into:
+
+* [Preprocessing methods]()
+* [Reduction dimension methods]()
+* [Machine Learning methods]()
+* [Plotting methods]()
+
 
 ## Quick Installation
 

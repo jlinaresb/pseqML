@@ -17,15 +17,12 @@ setMethod('pseq2mlr',
           data = phyloseq,
           target = target)
 
-        X = get_X(pseqML)
-        Y = get_Y(pseqML)
-
-        d = cbind.data.frame(X, target = Y)
-        names(d) = make.names(names(d))
+        xy <- get_XY(pseqML)
+        names(xy) = make.names(names(xy))
 
         task = TaskClassif$new(
           id = id,
-          backend = d,
+          backend = xy,
           target = 'target')
 
         pseqMLR = new(
